@@ -1,0 +1,83 @@
+<div class="mood-logs-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace Admin</span>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/admin/resources">Resources</a>
+      <a class="nav-link active" routerLink="/admin/mood-logs">Mood Logs</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content" *ngIf="!isLoading">
+
+    <h1>All Mood Logs</h1>
+    <p class="subtitle">
+      Anonymized mood log entries from all users this week.
+    </p>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-pill">
+        Total this week: <strong>{{ stats.total_logs_this_week }}</strong>
+      </div>
+      <div class="stat-pill" *ngIf="stats.most_common_mood">
+        Top mood:
+        <strong>
+          {{ moodEmojis[stats.most_common_mood] }}
+          {{ stats.most_common_mood }}
+        </strong>
+      </div>
+      <div class="stat-pill">
+        Active users: <strong>{{ stats.active_users_this_week }}</strong>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+
+      <!-- Header -->
+      <div class="table-header">
+        <span class="col-user">User ID</span>
+        <span class="col-mood">Mood Tag</span>
+        <span class="col-score">Score</span>
+        <span class="col-date">Date Logged</span>
+      </div>
+
+      <!-- Rows -->
+      <div class="table-row" *ngFor="let log of moodLogs">
+        <span class="col-user user-ref">{{ log.user_ref }}</span>
+        <span class="col-mood">
+          <span
+            class="mood-badge"
+            [style.background-color]="moodColors[log.mood_tag] + '33'"
+            [style.color]="moodColors[log.mood_tag]"
+          >
+            {{ moodEmojis[log.mood_tag] }} {{ log.mood_tag }}
+          </span>
+        </span>
+        <span class="col-score">{{ log.mood_score }} / 5</span>
+        <span class="col-date">{{ log.logged_at | date:'MMM d, y' }}</span>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="moodLogs.length === 0">
+        <p>No mood logs found.</p>
+      </div>
+
+    </div>
+
+    <!-- Back button -->
+    <a routerLink="/admin/dashboard">
+      <button class="btn-secondary back-btn">Back to Dashboard</button>
+    </a>
+
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+
+</div>

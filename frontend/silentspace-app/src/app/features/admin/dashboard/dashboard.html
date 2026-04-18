@@ -1,0 +1,97 @@
+<div class="admin-dashboard-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace Admin</span>
+    <div class="nav-links">
+      <a class="nav-link active" routerLink="/admin/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/admin/resources">Resources</a>
+      <a class="nav-link" routerLink="/admin/mood-logs">Mood Logs</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content" *ngIf="!isLoading">
+
+    <h1>Admin Overview</h1>
+    <p class="subtitle">Mood trends across all users this week.</p>
+
+    <!-- Stat cards -->
+    <div class="stat-cards">
+
+      <div class="stat-card">
+        <p class="stat-label">Total Logs This Week</p>
+        <p class="stat-value">{{ stats.total_logs_this_week }}</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Most Common Mood</p>
+        <p class="stat-value mood-value" *ngIf="stats.most_common_mood">
+          {{ moodEmojis[stats.most_common_mood] }} {{ stats.most_common_mood }}
+        </p>
+        <p class="stat-value" *ngIf="!stats.most_common_mood">None yet</p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-label">Active Users This Week</p>
+        <p class="stat-value">{{ stats.active_users_this_week }}</p>
+      </div>
+
+    </div>
+
+    <div class="main-grid">
+
+      <!-- Left -- trend chart and breakdown -->
+      <div class="left-column">
+
+        <h2 class="section-title">Mood Trend This Week</h2>
+        <div class="chart-container">
+          <div class="chart-bars" *ngIf="trends.length > 0">
+            <div class="bar-item" *ngFor="let trend of trends">
+              <p class="bar-count">{{ trend.total_logs }}</p>
+              <div
+                class="bar"
+                [style.height.px]="trend.total_logs > 0 ? (trend.total_logs / getMaxLogs()) * 160 : 8"
+                [style.background-color]="moodColors[trend.mood_tag]"
+              ></div>
+              <span class="bar-label">
+                {{ moodEmojis[trend.mood_tag] }} {{ trend.mood_tag }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Breakdown by Mood Tag</h2>
+        <div class="breakdown-card">
+          <div class="breakdown-row" *ngFor="let trend of trends">
+            <span class="breakdown-mood">
+              {{ moodEmojis[trend.mood_tag] }} {{ trend.mood_tag }}
+            </span>
+            <span class="breakdown-count">{{ trend.total_logs }} logs</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right -- quick actions -->
+      <div class="right-column">
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="actions-card">
+          <a routerLink="/admin/resources">
+            <button class="btn-primary action-btn">Manage Resources</button>
+          </a>
+          <a routerLink="/admin/mood-logs">
+            <button class="btn-secondary action-btn">View All Mood Logs</button>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+
+</div>

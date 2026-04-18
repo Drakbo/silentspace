@@ -1,0 +1,187 @@
+.resources-page {
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 80px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Lora', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+
+  &:hover { color: var(--color-primary); }
+  &.active {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+}
+
+.nav-logout {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0;
+
+  &:hover { color: var(--color-error); }
+}
+
+.content {
+  padding: 40px 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 48px;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    margin-bottom: 32px;
+  }
+}
+
+/* Filter pills */
+.filter-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  height: 36px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+}
+
+/* Resource grid */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.resource-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+
+  .resource-name {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .resource-badge {
+    display: inline-block;
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+
+  .resource-address,
+  .resource-contact {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  .resource-description {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 8px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .content {
+    padding: 24px 32px;
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+
+  .navbar {
+    padding: 0 32px;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+}

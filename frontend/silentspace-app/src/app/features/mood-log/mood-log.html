@@ -1,0 +1,74 @@
+<div class="mood-log-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace</span>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link active" routerLink="/log-mood">Log Mood</a>
+      <a class="nav-link" routerLink="/resources">Resources</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <!-- Left column -- form -->
+    <div class="left-column">
+
+      <h1>How are you feeling?</h1>
+      <p class="subtitle">Select your mood and we will guide you from there.</p>
+
+      <!-- Error or already logged message -->
+      <div class="error-banner" *ngIf="errorMessage">
+        {{ errorMessage }}
+        <a routerLink="/dashboard" *ngIf="alreadyLoggedToday" class="link">
+          Go to Dashboard
+        </a>
+      </div>
+
+      <!-- Mood tag label -->
+      <p class="section-label">Select a mood tag</p>
+
+      <!-- Mood cards -->
+      <div class="mood-cards">
+        <div
+          class="mood-card"
+          *ngFor="let mood of moods"
+          [class.selected]="selectedMood === mood.tag"
+          [style.border-color]="selectedMood === mood.tag ? mood.color : ''"
+          [style.background-color]="selectedMood === mood.tag ? mood.color + '22' : ''"
+          (click)="selectMood(mood.tag)"
+        >
+          <span class="mood-emoji">{{ mood.emoji }}</span>
+          <span class="mood-label">{{ mood.tag }}</span>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <button
+        class="btn-primary submit-btn"
+        (click)="onSubmit()"
+        [disabled]="isLoading || !selectedMood"
+      >
+        {{ isLoading ? 'Logging...' : 'Log My Mood' }}
+      </button>
+
+      <p class="helper-text">You can only log one mood per day.</p>
+
+    </div>
+
+    <!-- Right decorative panel -->
+    <div class="right-panel">
+      <span class="sparkle">✦</span>
+      <p class="panel-quote">
+        Checking in with yourself is an act of courage.
+      </p>
+      <p class="panel-sub">
+        SilentSpace is here to help you understand your emotions, one day at a time.
+      </p>
+    </div>
+
+  </div>
+
+</div>

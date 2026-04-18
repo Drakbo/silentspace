@@ -1,0 +1,171 @@
+<div class="resource-management-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace Admin</span>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+      <a class="nav-link active" routerLink="/admin/resources">Resources</a>
+      <a class="nav-link" routerLink="/admin/mood-logs">Mood Logs</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <!-- Header row -->
+    <div class="header-row">
+      <div>
+        <h1>Resource Management</h1>
+        <p class="subtitle">
+          Add, edit, or remove mental health resources listed on SilentSpace.
+        </p>
+      </div>
+      <button class="btn-primary add-btn" (click)="openAddModal()">
+        + Add Resource
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading resources...</p>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper" *ngIf="!isLoading">
+
+      <!-- Table header -->
+      <div class="table-header">
+        <span class="col-name">Name</span>
+        <span class="col-type">Type</span>
+        <span class="col-address">Address</span>
+        <span class="col-contact">Contact</span>
+        <span class="col-actions">Actions</span>
+      </div>
+
+      <!-- Table rows -->
+      <div class="table-row" *ngFor="let resource of resources">
+        <span class="col-name">{{ resource.name }}</span>
+        <span class="col-type">
+          <span class="badge">{{ resource.type }}</span>
+        </span>
+        <span class="col-address">{{ resource.address }}</span>
+        <span class="col-contact">{{ resource.contact }}</span>
+        <span class="col-actions">
+
+          <!-- Normal state -->
+          <ng-container *ngIf="deleteConfirmId !== resource.id">
+            <button
+              class="btn-edit"
+              (click)="openEditModal(resource)"
+            >Edit</button>
+            <button
+              class="btn-delete"
+              (click)="confirmDelete(resource.id)"
+            >Delete</button>
+          </ng-container>
+
+          <!-- Confirm delete state -->
+          <ng-container *ngIf="deleteConfirmId === resource.id">
+            <span class="confirm-text">Are you sure?</span>
+            <button
+              class="btn-confirm-delete"
+              (click)="deleteResource(resource.id)"
+            >Yes</button>
+            <button
+              class="btn-cancel"
+              (click)="cancelDelete()"
+            >No</button>
+          </ng-container>
+
+        </span>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="resources.length === 0">
+        <p>No resources yet. Click + Add Resource to get started.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>{{ isEditing ? 'Edit Resource' : 'Add New Resource' }}</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+
+      <div class="error-banner" *ngIf="formError">
+        {{ formError }}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Name *</label>
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Resource name"
+          [(ngModel)]="formName"
+          name="formName"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Type *</label>
+        <select class="input-field" [(ngModel)]="formType" name="formType">
+          <option value="" disabled>Select a type</option>
+          <option *ngFor="let type of resourceTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Address *</label>
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Full address in CDO"
+          [(ngModel)]="formAddress"
+          name="formAddress"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contact *</label>
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Phone or hotline number"
+          [(ngModel)]="formContact"
+          name="formContact"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description (optional)</label>
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Brief description"
+          [(ngModel)]="formDescription"
+          name="formDescription"
+        />
+      </div>
+
+      <button
+        class="btn-primary save-btn"
+        (click)="saveResource()"
+        [disabled]="isSaving"
+      >
+        {{ isSaving ? 'Saving...' : isEditing ? 'Save Changes' : 'Save Resource' }}
+      </button>
+
+    </div>
+  </div>
+
+</div>

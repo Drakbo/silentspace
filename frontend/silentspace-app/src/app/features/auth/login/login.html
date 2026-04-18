@@ -1,0 +1,63 @@
+<div class="login-page">
+
+  <!-- Left decorative panel -->
+  <div class="left-panel">
+    <p class="tagline">Your space to breathe.</p>
+    <p class="subtitle">
+      Track your mood. Find your calm. Discover support near you.
+    </p>
+  </div>
+
+  <!-- Login card -->
+  <div class="login-card">
+    <h1>Welcome back.</h1>
+    <p class="card-subtitle">Log in to your SilentSpace account.</p>
+
+    <!-- Error message -->
+    <div class="error-banner" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Login form -->
+    <form (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input
+          class="input-field"
+          type="email"
+          placeholder="you@email.com"
+          [(ngModel)]="email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input
+          class="input-field"
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          name="password"
+        />
+      </div>
+
+      <button
+        class="btn-primary"
+        type="submit"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Logging in...' : 'Log In' }}
+      </button>
+
+    </form>
+
+    <p class="register-link">
+      Don't have an account?
+      <a class="link" routerLink="/register">Register here.</a>
+    </p>
+
+  </div>
+
+</div>

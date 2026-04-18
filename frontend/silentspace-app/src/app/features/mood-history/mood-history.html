@@ -1,0 +1,87 @@
+<div class="mood-history-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace</span>
+    <div class="nav-links">
+      <a class="nav-link active" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/log-mood">Log Mood</a>
+      <a class="nav-link" routerLink="/resources">Resources</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content" *ngIf="!isLoading">
+
+    <!-- Left column -->
+    <div class="left-column">
+
+      <h1>Your Mood History</h1>
+      <p class="subtitle">A record of how you have been feeling over time.</p>
+
+      <!-- Weekly chart -->
+      <h2 class="section-title">Weekly Overview</h2>
+      <div class="chart-container">
+        <div class="chart-bars" *ngIf="weeklyLogs.length > 0; else emptyChart">
+          <div class="bar-item" *ngFor="let log of weeklyLogs">
+            <div
+              class="bar"
+              [style.height.%]="(log.mood_score / 5) * 100"
+              [style.background-color]="moodColors[log.mood_tag]"
+              [title]="log.mood_tag + ' - Score ' + log.mood_score"
+            ></div>
+            <span class="bar-emoji">{{ moodEmojis[log.mood_tag] }}</span>
+            <span class="bar-label">{{ log.logged_at | date:'EEE' }}</span>
+          </div>
+        </div>
+        <ng-template #emptyChart>
+          <p class="empty-state">No mood logs this week.</p>
+        </ng-template>
+      </div>
+
+      <!-- All entries -->
+      <h2 class="section-title">All Entries</h2>
+
+      <div class="log-list" *ngIf="allLogs.length > 0; else noLogs">
+        <div class="log-row" *ngFor="let log of allLogs">
+          <span class="log-emoji">{{ moodEmojis[log.mood_tag] }}</span>
+          <div class="log-info">
+            <p class="log-mood">{{ log.mood_tag }}</p>
+            <p class="log-score">Score {{ log.mood_score }}</p>
+          </div>
+          <p class="log-date">{{ log.logged_at | date:'MMMM d, y' }}</p>
+        </div>
+      </div>
+
+      <ng-template #noLogs>
+        <div class="empty-logs">
+          <p>No mood logs yet. Start logging your mood daily.</p>
+          <a routerLink="/log-mood">
+            <button class="btn-primary log-btn">Log Your Mood</button>
+          </a>
+        </div>
+      </ng-template>
+
+    </div>
+
+    <!-- Right sidebar -->
+    <div class="right-column">
+      <h2 class="section-title">This Week at a Glance</h2>
+      <div class="summary-card">
+        <div class="summary-row" *ngFor="let item of moodSummary">
+          <span class="summary-emoji">{{ item.emoji }}</span>
+          <span class="summary-tag">{{ item.tag }}</span>
+          <span class="summary-count">
+            {{ item.count }} {{ item.count === 1 ? 'entry' : 'entries' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+
+</div>

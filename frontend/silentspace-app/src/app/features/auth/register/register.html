@@ -1,0 +1,98 @@
+<div class="register-page">
+
+  <!-- Left decorative panel -->
+  <div class="left-panel">
+    <p class="tagline">Your space to breathe.</p>
+    <p class="subtitle">
+      Track your mood. Find your calm. Discover support near you.
+    </p>
+  </div>
+
+  <!-- Register card -->
+  <div class="register-card">
+    <h1>Create an account.</h1>
+    <p class="card-subtitle">Join SilentSpace and start your wellness journey.</p>
+
+    <!-- Error message -->
+    <div class="error-banner" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Register form -->
+    <form (ngSubmit)="onSubmit()">
+
+      <!-- First and last name side by side -->
+      <div class="name-row">
+        <div class="form-group">
+          <label class="form-label">First name</label>
+          <input
+            class="input-field"
+            type="text"
+            placeholder="Juan"
+            [(ngModel)]="firstName"
+            name="firstName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last name</label>
+          <input
+            class="input-field"
+            type="text"
+            placeholder="Dela Cruz"
+            [(ngModel)]="lastName"
+            name="lastName"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input
+          class="input-field"
+          type="email"
+          placeholder="you@email.com"
+          [(ngModel)]="email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input
+          class="input-field"
+          type="password"
+          placeholder="Create a password"
+          [(ngModel)]="password"
+          name="password"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm password</label>
+        <input
+          class="input-field"
+          type="password"
+          placeholder="Repeat your password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+        />
+      </div>
+
+      <button
+        class="btn-primary"
+        type="submit"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Creating account...' : 'Create Account' }}
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a class="link" routerLink="/login">Log in.</a>
+    </p>
+
+  </div>
+
+</div>

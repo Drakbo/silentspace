@@ -1,0 +1,66 @@
+<div class="resources-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace</span>
+    <div class="nav-links">
+      <ng-container *ngIf="isLoggedIn">
+        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        <a class="nav-link" routerLink="/log-mood">Log Mood</a>
+        <a class="nav-link active" routerLink="/resources">Resources</a>
+        <button class="nav-logout" (click)="logout()">Logout</button>
+      </ng-container>
+      <ng-container *ngIf="!isLoggedIn">
+        <a class="nav-link" routerLink="/login">Log In</a>
+        <a class="nav-link" routerLink="/register">Register</a>
+      </ng-container>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <h1>Mental Health Resources in CDO</h1>
+    <p class="subtitle">
+      Find counselors, hotlines, and wellness organizations near you.
+    </p>
+
+    <!-- Filter pills -->
+    <div class="filter-row">
+      <button
+        class="filter-pill"
+        *ngFor="let filter of filters"
+        [class.active]="activeFilter === filter"
+        (click)="setFilter(filter)"
+      >
+        {{ filter }}
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="isLoading">
+      <p>Loading resources...</p>
+    </div>
+
+    <!-- Resource grid -->
+    <div class="resource-grid" *ngIf="!isLoading">
+
+      <div class="resource-card" *ngFor="let resource of filteredResources">
+        <p class="resource-name">{{ resource.name }}</p>
+        <span class="resource-badge">{{ resource.type }}</span>
+        <p class="resource-address">{{ resource.address }}</p>
+        <p class="resource-contact">{{ resource.contact }}</p>
+        <p class="resource-description" *ngIf="resource.description">
+          {{ resource.description }}
+        </p>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="filteredResources.length === 0">
+        <p>No resources found for this category.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

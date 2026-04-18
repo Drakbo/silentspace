@@ -1,0 +1,103 @@
+<div class="dashboard-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace</span>
+    <div class="nav-links">
+      <a class="nav-link active" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/log-mood">Log Mood</a>
+      <a class="nav-link" routerLink="/resources">Resources</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="content" *ngIf="!isLoading">
+
+    <!-- Left column -->
+    <div class="left-column">
+
+      <!-- Greeting -->
+      <h1 class="greeting">
+        {{ getGreeting() }}, {{ currentUser?.first_name }}.
+      </h1>
+      <p class="greeting-sub">How are you feeling today?</p>
+
+      <!-- Today's mood card -->
+      <div class="mood-card" *ngIf="todayLog; else noLog">
+        <p class="card-label">Today's Mood</p>
+        <p class="card-mood">
+          {{ moodEmojis[todayLog.mood_tag] }} {{ todayLog.mood_tag }}
+        </p>
+        <p class="card-time">
+          Logged at {{ todayLog.logged_at | date:'h:mm a' }}
+        </p>
+      </div>
+
+      <ng-template #noLog>
+        <div class="mood-card no-log">
+          <p class="card-label">Today's Mood</p>
+          <p class="card-mood-empty">Not logged yet</p>
+        </div>
+      </ng-template>
+
+      <!-- View full history link -->
+      <a class="history-link" routerLink="/mood-history">View full history</a>
+
+      <!-- Log mood button -->
+      <a routerLink="/log-mood">
+        <button class="btn-primary log-btn">Log Today's Mood</button>
+      </a>
+
+      <!-- Weekly chart section -->
+      <div class="chart-section">
+        <h2 class="section-title">Your Mood This Week</h2>
+        <div class="chart-container">
+          <!-- Chart will be added in mood history screen -->
+          <div class="chart-bars" *ngIf="weeklyLogs.length > 0; else emptyChart">
+            <div
+              class="bar-item"
+              *ngFor="let log of weeklyLogs"
+            >
+              <div
+                class="bar"
+                [style.height.%]="(log.mood_score / 5) * 100"
+                [style.background-color]="moodColors[log.mood_tag]"
+              ></div>
+              <span class="bar-label">{{ log.logged_at | date:'EEE' }}</span>
+            </div>
+          </div>
+          <ng-template #emptyChart>
+            <p class="empty-state">No mood logs this week. Start logging to see your trend.</p>
+          </ng-template>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column -- resources sidebar -->
+    <div class="right-column">
+      <h2 class="section-title">Resources in CDO</h2>
+
+      <div class="resource-card" *ngFor="let resource of resources">
+        <p class="resource-name">{{ resource.name }}</p>
+        <span class="resource-badge">{{ resource.type }}</span>
+        <p class="resource-address">{{ resource.address }}</p>
+        <p class="resource-contact">{{ resource.contact }}</p>
+      </div>
+
+      <div class="no-resources" *ngIf="resources.length === 0">
+        <p>No resources available yet.</p>
+      </div>
+
+      <a class="view-all-link" routerLink="/resources">View all resources</a>
+    </div>
+
+  </div>
+
+  <!-- Loading state -->
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+
+</div>

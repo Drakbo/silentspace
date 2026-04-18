@@ -1,0 +1,61 @@
+<div class="coping-tip-page">
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <span class="logo">SilentSpace</span>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link active" routerLink="/log-mood">Log Mood</a>
+      <a class="nav-link" routerLink="/resources">Resources</a>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <!-- Left column -->
+    <div class="left-column">
+
+      <h1>Here is something for you.</h1>
+      <p class="subtitle">
+        Based on your mood today, we thought this might help.
+      </p>
+
+      <!-- Mood summary card -->
+      <div class="mood-summary">
+        <p class="summary-label">You logged:</p>
+        <p class="summary-mood">
+          {{ moodEmojis[moodTag] }} {{ moodTag }} — Score {{ moodScore }}
+        </p>
+      </div>
+
+      <!-- Tip card -->
+      <div class="tip-card">
+        <p class="tip-label">Your coping tip</p>
+        <p class="tip-text">{{ tipText }}</p>
+        <span class="sparkle">✦</span>
+      </div>
+
+      <!-- Action buttons -->
+      <p class="another-tip-label">Want a different tip?</p>
+      <div class="action-buttons">
+        <button class="btn-secondary" (click)="showAnotherTip()">Show Another Tip</button>
+        <button class="btn-primary" (click)="goToDashboard()">
+          Go to Dashboard
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Right panel -- mini chart placeholder -->
+    <div class="right-panel">
+      <h2 class="panel-title">Your mood this week</h2>
+      <div class="chart-placeholder">
+        <p>Mood chart will render here</p>
+      </div>
+      <p class="chart-hint">Keep logging daily to see your trend.</p>
+    </div>
+
+  </div>
+
+</div>
