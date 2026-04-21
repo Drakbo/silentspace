@@ -11,7 +11,7 @@ import admin from './routes/admin.js'
 const app = new Hono()
 
 app.use('/*', cors({
-  origin: 'http://localhost:4200',
+  origin: ['http://localhost:4200', 'https://silentspace.vercel.app'],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowHeaders: ['Content-Type', 'Authorization'],
 }))
